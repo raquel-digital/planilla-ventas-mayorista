@@ -1,0 +1,28 @@
+{
+  "name": "planilla-ventas-minorista",
+  "version": "3.0.0",
+  "description": "planilla para completar ventas del dia",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://git.heroku.com/planilla-ventas.git"
+  },
+  "author": "Javier Falk",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.4",
+    "heroku": "^7.59.1",
+    "mongoose": "^6.0.12",
+    "nodemon": "^2.0.15",
+    "socket.io": "^1.0.0",
+    "write-excel-file": "^1.0.0"
+  },
+  "devDependencies": {},
+  "keywords": []
+}
