@@ -77,8 +77,8 @@ app.get('/login', (req, res) => {
 });
 
 app.post('/singup', loginMiddleware.isLogin);
-
-app.get('/', loginMiddleware.logged, async (req, res) => {
+//loginMiddleware.logged,
+app.get('/',  async (req, res) => {
     const admin = loginMiddleware.superAdminCheck
     const bool = admin()
     if(bool){
