@@ -10,19 +10,16 @@ const middlewares = {
         let log = req.body
         const user = {usuario: "raquelmayo", contraseña: "local2665" }
         const admin = {usuario: "capriadmin", contraseña: "capri2665" }
-        if(admin.usuario == log.usuario && admin.contraseña == log.contraseña){
+        if(admin.usuario == log.usuario && admin.contraseña == log.contraseña ){
             
             adminOk = true;
-            res.redirect('/')
-            next()
+            return next()
         }
         if(user.usuario == log.usuario && user.contraseña == log.contraseña){
             loginOk = true;
-              res.redirect('/')
-              return next()
+            return next()
         }else{
-            res.redirect('/login')
-            return next();
+            return  res.redirect('/login');
         } 
     },
     logged : function (req, res, next) {
