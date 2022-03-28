@@ -18,7 +18,11 @@ class Mongo {
             base = await ventasMesualModel.find();
            }
            if(model == "totalVentaDiaria"){
-            base = await sumaVentaDiaria.find();  
+            base = await sumaVentaDiaria.find();
+            if(base.length == 0){
+                await sumaVentaDiaria.create();
+                base = 0;
+            }  
            }           
            return base
         }catch(error){

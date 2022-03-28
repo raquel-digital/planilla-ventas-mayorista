@@ -5,8 +5,7 @@ app.use(express.urlencoded({ extended: true }));
 //conectamos mongoDB
 require('./conecciones/mongoCompas');
 //CRUD
-// const mongo = require("./api/mongo");
- let mongoCRUD = require("./api/mongo");
+let mongoCRUD = require("./api/mongo");
 
 //UTILS
 let fecha = require("./utils/fecha");
@@ -43,7 +42,7 @@ var resultDiarioTotal; //total de ventas del dia
     //await mongoCRUD.crearExcel("mensual")
     socketFunction("ventaDiaria", ventaDiaria);
     let suma = 0
-    if(totalVentaDiaria != undefined){ suma = totalVentaDiaria[0].totalVentadiaria }
+    //if(totalVentaDiaria != undefined){ suma = totalVentaDiaria[0].totalVentadiaria }
     socketFunction("totalVentas", suma);
 })()
 
@@ -127,14 +126,14 @@ io.on('connect', socket => {
         let resultDiario = await controller.sumaVentaDiario(nuevaVenta, ventaDiaria);
         await mongoCRUD.guardar(resultDiario, "diario");
         let result = await controller.sumarVentas(nuevaVenta, data, `./baseDeDatos/${fecha}`)//, "mensual");
-       await mongoCRUD.sumarVenta(result, "sumaMensual");
+        await mongoCRUD.sumarVenta(result, "sumaMensual");
         resultDiarioTotal = await mongoCRUD.sumarVenta(nuevaVenta, "sumaDiaria"); 
         ventaDiaria.push(nuevaVenta);
         let ventaTemp = [];
         ventaTemp.push(resultDiario)
-        let totalVentaDiaria = undefined;
-        totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
-        if(totalVentaDiaria != undefined){ suma = totalVentaDiaria[0].totalVentadiaria }
+        //let totalVentaDiaria = undefined;
+        //totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
+        //if(totalVentaDiaria != undefined){ suma = totalVentaDiaria[0].totalVentadiaria }
         socketFunction("totalVentas", suma);
         socket.emit("ventaDiaria", ventaTemp);
         socket.emit("totalVentas", resultDiarioTotal);        
