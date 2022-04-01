@@ -19,7 +19,7 @@ class Mongo {
            if(model == "totalVentaDiaria"){
             base = await sumaVentaDiaria.find();
             if(base.length == 0){
-                base = await sumaVentaDiaria.create();
+                base = await sumaVentaDiaria.create({suma: "suma", totalVentadiaria: 0});
                 base = await sumaVentaDiaria.find();
             }
            }           

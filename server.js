@@ -50,6 +50,7 @@ var totalVentaDiaria; //test
 (async () => {
     try{
         totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
+        console.log("1 read "+totalVentaDiaria)
         if(totalVentaDiaria[0].totalVentadiaria == undefined){
             await mongoCRUD.createVentadiaria();
             totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
@@ -139,6 +140,7 @@ io.on('connect', socket => {
         (async () => {
             try{
                 totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
+                console.log("2 read "+totalVentaDiaria)
                 if(totalVentaDiaria[0].totalVentadiaria == undefined){
                     await mongoCRUD.createVentadiaria();
                     totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
