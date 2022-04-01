@@ -22,7 +22,8 @@ global.addEventListener("click", event => {
     if(mouse.classList.contains('venta')){
         let vendedor = mouse.previousElementSibling.previousElementSibling.previousElementSibling;
         let monto = mouse.previousElementSibling;
-        ingresarVenta(vendedor.textContent, parseFloat(monto.value))
+        ingresarVenta(vendedor.textContent, parseInt(monto.value))
+        //monto.value = " ";
     }
     if(mouse.classList.contains('salir')){
       console.log("salir")
@@ -32,48 +33,25 @@ global.addEventListener("click", event => {
 
 var vendedores = [{vendedor: "elba", totalVentadiaria: 0}, {vendedor: "santiago", totalVentadiaria: 0}, {vendedor: "cristina", totalVentadiaria: 0}, {vendedor: "juan", totalVentadiaria: 0}, {vendedor: "fabian", totalVentadiaria: 0}]
 
-socket.on("ventas-realizadas", ventas => {    
+socket.on("ventas-realizadas", ventas => {
     ventas.forEach(v => {
+      
         report.innerHTML +=  `<tr><td>${v.vendedor}</td><td>${v.monto}</td><td>${v.fecha}</td></tr>`//`<li">fecha: ${v.fecha} vendio: ${v.vendedor} monto: ${v.monto}</li>`
     })
 })
-
+socket.on("totalVentas-inicio", data => {
+  document.querySelector(".totalVentas").innerHTML = `<h1>INGRESO DE VENTAS. TOTAL DE VENTAS DEL DIA: ${data[0].totalVentadiaria}</h1>`;
+})
 socket.on("totalVentas", data => {
     console.log(data)
-    document.querySelector(".totalVentas").innerHTML = `<h1>INGRESO DE VENTAS. TOTAL DE VENTAS DEL DIA: ${data}</h1>`;
+    document.querySelector(".totalVentas").innerHTML = `<h1>INGRESO DE VENTAS. TOTAL DE VENTAS DEL DIA: ${data[0].totalVentadiaria}</h1>`;
 })
 
 socket.on("ventaDiaria", ventas => {
-    for(venta of ventas){ 
+    ventas.forEach(venta => { 
     let suma = document.querySelector("." + venta.vendedor);
         suma.textContent = `${venta.totalVentadiaria}`;
-    // switch(venta.vendedor){
-    //     case "Elba":
-    //       data.datasets[0].data[0] = venta.totalVentadiaria;
-    //     break;
-    //     case "Santiago":
-    //       data.datasets[0].data[1] = venta.totalVentadiaria;
-    //     break;
-    //     case "Juan":
-    //       data.datasets[0].data[2] = venta.totalVentadiaria;
-    //     break;
-    //     case "Fabian":
-    //       data.datasets[0].data[3] = venta.totalVentadiaria;
-    //     break;
-    //     case "Cristina":
-    //       data.datasets[0].data[4] = venta.totalVentadiaria;
-    //     break;
-    //     case "Daniel":
-    //       data.datasets[0].data[5] = venta.totalVentadiaria;
-    //     break;
-    //   }    
-
-    }
-    // myChart.destroy()
-    // myChart = new Chart(
-    //   document.getElementById('myChart'),
-    //   config
-    // );    
+  })
 })
 
 function ingresarVenta(vendedor, monto){
@@ -86,10 +64,10 @@ function ingresarVenta(vendedor, monto){
     let confirm = window.confirm(vendedor + " vendio: $ " + monto + " fecha: " + fecha)
     if(confirm){
         report.innerHTML += `<tr><td>${vendedor}</td><td>${monto}</td><td>${fecha}</td></tr>`
-        let borrarMonto = document.querySelectorAll(".monto");
-        borrarMonto.forEach( m => {
-            m.value = " ";
-        })
+        // let borrarMonto = document.querySelectorAll(".monto");
+        // borrarMonto.forEach( m => {
+        //     m.value = " ";
+        // })
         socket.emit('nueva-venta', venta);
         return;
     }else{
