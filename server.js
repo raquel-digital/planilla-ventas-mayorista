@@ -133,11 +133,14 @@ io.on('connect', socket => {
         (async () => {
             try{
                 totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
-                socketFunction("totalVentas", totalVentaDiaria)
+                let diaria = await mongoCRUD.leer(diaria, "diaria")
+                socket.emit("totalVentas", totalVentaDiaria)
                 data = await mongoCRUD.leer(data, "mensual");
                 ventaDiaria = await mongoCRUD.leer(ventaDiaria, "diaria");
-                socketFunction("ventaDiaria", ventaDiaria);
-                console.log(totalVentaDiaria)
+                socket.emit("ventaDiaria", ventaDiaria);
+                console.log("[ MENSUAL ] " + data)
+                console.log("[ DIARIA  ] " + diaria)
+                console.log("[ TOTTAL VENTA DIARIA ] " + totalVentaDiaria)
             }catch(e){
                 console.log(e)
             }
