@@ -50,11 +50,16 @@ var totalVentaDiaria; //test
 (async () => {
     try{
         totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
+        if(totalVentaDiaria[0].totalVentadiaria == undefined){
+            await mongoCRUD.createVentadiaria();
+            totalVentaDiaria = await mongoCRUD.leer(totalVentaDiaria, "totalVentaDiaria");
+            console.log("init "+totalVentaDiaria)
+        }
         socketFunction("totalVentas", totalVentaDiaria)
         data = await mongoCRUD.leer(data, "mensual");
         ventaDiaria = await mongoCRUD.leer(ventaDiaria, "diaria");
         socketFunction("ventaDiaria", ventaDiaria);
-        console.log(totalVentaDiaria)
+        )
     }catch(e){
         console.log(e)
     }
@@ -71,6 +76,7 @@ const { json } = require('express');
 const { async } = require('rxjs');
 const { nextTick, mainModule } = require('process');
 const { watchOptions } = require('nodemon/lib/config/defaults');
+const { Mongoose } = require('mongoose');
 app.engine('hbs', handlebars({
     extname: '.hbs',//extension
     defaultLayout: 'index.hbs',//pagina por defecto
@@ -139,9 +145,7 @@ io.on('connect', socket => {
                 data = await mongoCRUD.leer(data, "mensual");
                 ventaDiaria = await mongoCRUD.leer(ventaDiaria, "diaria");
                 socket.emit("ventaDiaria", ventaDiaria);
-                console.log("[ MENSUAL ] " + data)
-                console.log("[ DIARIA  ] " + diaria)
-                console.log("[ TOTTAL VENTA DIARIA ] " + totalVentaDiaria)
+                console.log("ready "+totalVentaDiaria)
             }catch(e){
                 console.log(e)
             }

@@ -157,6 +157,10 @@ class Mongo {
                 console.log(err)
             }
         }
+
+        async createVentadiaria(){
+           await ventasDiariaModel.create({suma: "suma", totalVentadiaria: 0})
+        }
     
 }    
 
