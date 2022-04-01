@@ -59,7 +59,7 @@ var totalVentaDiaria; //test
         data = await mongoCRUD.leer(data, "mensual");
         ventaDiaria = await mongoCRUD.leer(ventaDiaria, "diaria");
         socketFunction("ventaDiaria", ventaDiaria);
-        )
+        
     }catch(e){
         console.log(e)
     }
